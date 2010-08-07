@@ -2,6 +2,7 @@
 
 These are my solutions to the [Project Euler](http://projecteuler.net)
 problems. This project has several goals:
+
 1. Help me master [VimClojure](http://kotka.de/projects/clojure/vimclojure.html)
 2. Explore the use of the ->> (thread-last) macro for enhancing readability.
 The ->> macro forces me to keep my functions short, and reenforces the
