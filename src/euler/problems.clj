@@ -1,9 +1,12 @@
 (ns euler.problems
+  (:import java.util.Calendar)
   (:require [clojure.contrib.duck-streams :as ds]
-            [clojure.contrib.string :as string])
+            [clojure.contrib.string :as string]
+            [clojure.set :as set])
   (:use [euler.english]
         [net.wmorgan num coll string plane]
         [euler.util :only [defproblem]]
+        [clojure.contrib.combinatorics :only [selections lex-permutations]]
         [clojure.contrib.seq :only [indexed find-first]]))
 
 (defproblem 1
@@ -111,4 +114,78 @@
        triangle-routes
        (map #(reduce + %))
        (reduce max)))
+
+(defn day-inc
+  [^Calendar cal]
+  (doto (Calendar/getInstance)
+    (.set (.get cal Calendar/YEAR)
+          (.get cal Calendar/MONTH)
+          (.get cal Calendar/DAY_OF_MONTH))
+    (.add Calendar/DAY_OF_MONTH 1)))
+
+(defproblem 19
+  (->> (doto (Calendar/getInstance)
+         (.set 1901 0 1))
+       (iterate day-inc)
+       (take-while #(< (.get % Calendar/YEAR) 2001))
+       (filter #(= 1 (.get % Calendar/DAY_OF_MONTH)))
+       (filter #(= Calendar/SUNDAY (.get % Calendar/DAY_OF_WEEK)))
+       count))
+
+(defproblem 20
+  (->> (factorial 100)
+       str
+       (map char->num)
+       (reduce +)))
+
+(defproblem 21
+  (->> (range 1 10000)
+       (map-fn sum-of-divisors)
+       nontrivial-map-fixed-points
+       (reduce +)))
+
+(defn alphabetic-value
+  [string]
+  (->> (map #(inc (- (int %) (int \A))) string)
+       (reduce +)))
+
+(defn parse-names
+  [line]
+  (->> (.split line ",")
+       (map #(re-matches #"\"(.*)\"" %))
+       (map second)))
+
+(defproblem 22
+  (->> (slurp "rsrc/problem22.txt")
+       parse-names
+       sort
+       (map alphabetic-value)
+       (map * (iterate inc 1))
+       (reduce +)))
+
+(defn pairs-under-limit
+  [n coll]
+  (for [[i a] (indexed coll) :while (< a n)
+        b (drop i coll) :while (< (+ a b) n)]
+    [a b]))
+
+(defproblem 23
+  (->> abundant-numbers
+       (pairs-under-limit 28124)
+       (map #(reduce + %))
+       set
+       (set/difference (set (range 1 28124)))
+       (reduce +)))
+
+(defproblem 24
+  (->> (range 10)
+       lex-permutations
+       (take 1000000)
+       last))
+
+(defproblem 25
+  (->> fibs0
+       (take-while #(< (count (str %)) 1000))
+       count
+       inc))
 

@@ -128,6 +128,20 @@
   (is (= [1 19] (divisors 19))))
 
 (with-test
+  (defn proper-divisors
+    [n]
+    (->> (range 2 (inc (int (Math/sqrt n))))
+         (filter #(divides? % n))
+         (mapcat #(distinct (list % (/ n %))))
+         (cons 1)
+         (when (> n 1))))
+
+  (is (= #{1 2 4 7 14} (set (proper-divisors 28))))
+  (is (= #{1 2 3 4 6} (set (proper-divisors 12))))
+  (is (= #{} (set (proper-divisors 1))))
+  (is (= #{1} (set (proper-divisors 19)))))
+
+(with-test
   (defn fast-divisor-count
     [n]
     (->> (prime-factors n)
@@ -199,4 +213,35 @@
 
   (is (= 10 (collatz-length 13)))
   (is (= 1 (collatz-length 1))))
+
+(with-test
+  (defn sum-of-divisors
+    [n]
+    (->> (proper-divisors n)
+         (reduce +)))
+
+  (is (= 0 (sum-of-divisors 1)))
+  (is (= 7 (sum-of-divisors 8)))
+  (is (= 16 (sum-of-divisors 12)))
+  (is (= 28 (sum-of-divisors 28))))
+
+(with-test
+  (defn abundant?
+    [n]
+    (> (sum-of-divisors n) n))
+
+  (is (abundant? 12))
+  (is (not (abundant? 1)))
+  (is (not (abundant? 4)))
+  (is (abundant? 24)))
+
+(with-test
+  (def abundant-numbers (filter abundant? (iterate inc 1)))
+
+  (is (= [12 18 20 24 30] (take 5 abundant-numbers))))
+
+(with-test
+  (def fibs0 (lazy-cat [1 1] (map + fibs0 (rest fibs0))))
+
+  (is (= [1 1 2 3 5] (take 5 fibs0))))
 

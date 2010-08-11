@@ -54,3 +54,22 @@
   (is (xor nil 7))
   (is (xor true false true false true)))
 
+(with-test
+  (defn map-fn
+    [f coll]
+    (->> (map #(vector % (f %)) coll)
+         (into {})))
+
+  (is (= {1 2 2 3 3 4 4 5} (map-fn inc [1 2 3 4]))))
+
+(with-test
+  (defn nontrivial-map-fixed-points
+    [m]
+    (for [[k v] m :when (not= k v)
+                  :when (= (m v) k)]
+      k))
+
+  (is (= [] (nontrivial-map-fixed-points {:a :a :b :c :d :e})))
+  (is (= #{:a :b} (set (nontrivial-map-fixed-points {:a :b :b :a :c :d}))))
+  (is (= [] (nontrivial-map-fixed-points {:a :b :b :c :c :d :d :a}))))
+

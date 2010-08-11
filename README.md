@@ -14,7 +14,7 @@ code together, helping me to develop a more test-driven style.
 ## Usage
 
     roo:euler wmorgan$ lein repl
-    user=> (use 'euler.problems)
+    user=> (use 'euler.problems')
     nil
     user=> (problem-1)
     "Elapsed time: 16.784 msecs"
@@ -22,6 +22,9 @@ code together, helping me to develop a more test-driven style.
     user=> (problem-12)
     "Elapsed time: 1415.429 msecs"
     76576500
+
+Each problem function takes an optional integer argument specifying the
+maximum number of seconds it can run for. The default is 10 seconds.
 
 ## License
 
