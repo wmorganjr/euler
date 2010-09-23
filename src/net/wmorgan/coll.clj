@@ -94,4 +94,7 @@
     [coll]
     (->> (indexed coll)
          (apply max-key second)
-         first)))
+         first))
+
+  (is (= 0 (max-index [5 4 3 2 1])))
+  (is (= 2 (max-index [1 2 3 2 1]))))
