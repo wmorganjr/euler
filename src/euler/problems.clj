@@ -87,11 +87,9 @@
        (string/take 10)))
 
 (defproblem 14
-  (->> (range 1000000)
+  (->> (range 100000)
        (map collatz-length)
-       indexed
-       (apply max-key second)
-       first))
+       max-index))
 
 (defproblem 15
   (choose 40 20)) 
@@ -193,8 +191,6 @@
   (->> (range 1 1001)
        (map inverse-division)
        (map repeat-length)
-       indexed
-       (apply max-key second)
-       first
+       max-index
        inc))
 

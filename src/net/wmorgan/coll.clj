@@ -89,4 +89,9 @@
   (is (nil? (repeat-length [])))
   (is (nil? (repeat-length [1 2 3 4]))))
 
-
+(with-test
+  (defn max-index
+    [coll]
+    (->> (indexed coll)
+         (apply max-key second)
+         first)))
