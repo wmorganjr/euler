@@ -217,3 +217,10 @@
        (reductions + 1)
        (reduce +)))
 
+(defproblem 29
+  (->> (range 2 101)
+       (repeat 2)
+       (apply outer-product)
+       (map #(apply exp %))
+       set
+       count))

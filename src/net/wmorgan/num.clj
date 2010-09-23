@@ -258,3 +258,7 @@
   [a b]
   (fn [n]
     (+ (square n) (* a n) b)))
+
+(defn exp
+  [a b]
+  (reduce * (repeat b a)))
