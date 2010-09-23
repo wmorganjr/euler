@@ -245,3 +245,11 @@
 
   (is (= [1 1 2 3 5] (take 5 fibs0))))
 
+(with-test
+  (defn inverse-division
+    [n]
+    (iterate #(mod (* % 10) n) 1))
+
+  (is (= [1 0 0 0] (take 4 (inverse-division 2))))
+  (is (= [1 3 2 6] (take 4 (inverse-division 7))))
+  (is (= [1 10 1 10] (take 4 (inverse-division 33)))))

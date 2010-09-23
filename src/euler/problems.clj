@@ -189,3 +189,12 @@
        count
        inc))
 
+(defproblem 26
+  (->> (range 1 1001)
+       (map inverse-division)
+       (map repeat-length)
+       indexed
+       (apply max-key second)
+       first
+       inc))
+

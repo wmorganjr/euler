@@ -1,5 +1,6 @@
 (ns net.wmorgan.coll
-  (:use clojure.test))
+  (:use [clojure.test]
+        [clojure.contrib.seq :only [indexed]]))
 
 (with-test
   (defn outer-product
@@ -72,4 +73,20 @@
   (is (= [] (nontrivial-map-fixed-points {:a :a :b :c :d :e})))
   (is (= #{:a :b} (set (nontrivial-map-fixed-points {:a :b :b :a :c :d}))))
   (is (= [] (nontrivial-map-fixed-points {:a :b :b :c :c :d :d :a}))))
+
+(with-test
+  (defn repeat-length
+    [coll]
+    (loop [[[idx el] & rest] (indexed coll)
+           seen {}]
+      (if-let [prev-idx (seen el)]
+        (- idx prev-idx)
+        (if rest
+          (recur rest (assoc seen el idx))))))
+
+  (is (= 1 (repeat-length [1 1 0 1 2 3])))
+  (is (= 3 (repeat-length (cycle [1 2 3]))))
+  (is (nil? (repeat-length [])))
+  (is (nil? (repeat-length [1 2 3 4]))))
+
 
