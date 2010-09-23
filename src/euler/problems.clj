@@ -194,3 +194,18 @@
        max-index
        inc))
 
+(def candidate-quadratic-pairs
+  (for [a (range -999 1000) :when (odd? a)
+        b primes :while (< b 1000)]
+    [a b]))
+
+(defproblem 27
+  (->> candidate-quadratic-pairs
+       (map #(apply quadratic-fn %))
+       (map #(map % (range)))
+       (map #(take-while prime? %))
+       (map count)
+       max-index
+       (nth candidate-quadratic-pairs)
+       (apply *)))
+

@@ -253,3 +253,8 @@
   (is (= [1 0 0 0] (take 4 (inverse-division 2))))
   (is (= [1 3 2 6] (take 4 (inverse-division 7))))
   (is (= [1 10 1 10] (take 4 (inverse-division 33)))))
+
+(defn quadratic-fn
+  [a b]
+  (fn [n]
+    (+ (square n) (* a n) b)))
