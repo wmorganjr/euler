@@ -7,6 +7,7 @@
         [net.wmorgan num coll string plane]
         [euler.util :only [defproblem]]
         [clojure.contrib.combinatorics :only [selections lex-permutations]]
+        [clojure.contrib.math :only [expt]]
         [clojure.contrib.seq :only [indexed find-first]]))
 
 (defproblem 1
@@ -218,9 +219,8 @@
        (reduce +)))
 
 (defproblem 29
-  (->> (range 2 101)
-       (repeat 2)
-       (apply outer-product)
-       (map #(apply exp %))
+  (->> (outer-product (range 2 101) (range 2 101))
+       (map #(apply expt %))
        set
        count))
+       
