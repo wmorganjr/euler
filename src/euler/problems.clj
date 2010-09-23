@@ -209,3 +209,11 @@
        (nth candidate-quadratic-pairs)
        (apply *)))
 
+(defproblem 28
+  (->> (iterate #(+ 2 %) 2)
+       (map #(repeat 4 %))
+       (take 500)
+       (apply concat)
+       (reductions + 1)
+       (reduce +)))
+
